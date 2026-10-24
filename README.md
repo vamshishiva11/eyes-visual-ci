@@ -99,3 +99,7 @@ The original `eyes` job stays red because that run did fail; only the status cha
 ## Jenkins (optional)
 
 Not included. I started a Jenkins version but could not get it running end to end because of technical issues, so no Jenkins files are in this repo.
+
+## Contributing
+
+Open pull requests from branches in this repo (not forks) so the workflow can comment and set the status.
