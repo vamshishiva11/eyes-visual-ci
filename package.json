@@ -1,0 +1,19 @@
+{
+  "name": "eyes-visual-ci",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Applitools Eyes visual tests in GitHub Actions, with PR comment and commit status",
+  "scripts": {
+    "test:visual": "playwright test",
+    "test:scripts": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@applitools/eyes-playwright": "^1.51.2",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

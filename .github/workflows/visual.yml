@@ -1,0 +1,66 @@
+name: Visual tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# One run per PR; a newer push cancels the older run (its batch is closed by the always() step below).
+concurrency:
+  group: visual-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write # PR comment
+  statuses: write      # commit status on the PR head
+
+jobs:
+  eyes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      # Check out the commit the author pushed, not GitHub's synthetic merge commit.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Unit tests for scripts
+        run: npm run test:scripts
+
+      - name: Visual tests
+        run: npm run test:visual
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eyes-results
+          path: eyes-results.json
+          if-no-files-found: ignore
+
+      - name: Comment on PR
+        if: always() && github.event_name == 'pull_request' && hashFiles('eyes-results.json') != ''
+        run: node --import tsx scripts/post-pr-comment.ts
+
+      - name: Set commit status
+        if: always() && github.event_name == 'pull_request' && hashFiles('eyes-results.json') != ''
+        run: node --import tsx scripts/set-status.ts
+
+      - name: Close Eyes batch
+        if: always()
+        run: node --import tsx scripts/close-batch.ts
+
+      - name: Fail on unresolved differences
+        run: node --import tsx scripts/gate.ts

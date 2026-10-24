@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brewline - Coffee subscriptions</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <span class="logo">Brewline</span>
+    <nav><a href="#plans">Plans</a><a href="#signup">Sign up</a></nav>
+  </header>
+
+  <section class="hero">
+    <h1>Fresh coffee, on your schedule.</h1>
+    <p>Small-batch roasts delivered to your door every week.</p>
+    <a class="btn" href="#signup">Start your subscription</a>
+  </section>
+
+  <section id="plans" class="plans">
+    <article class="card"><h2>Starter</h2><p class="price">$12<span>/mo</span></p><ul><li>1 bag a month</li><li>Free shipping</li></ul></article>
+    <article class="card featured"><h2>Regular</h2><p class="price">$22<span>/mo</span></p><ul><li>2 bags a month</li><li>Free shipping</li><li>Pause anytime</li></ul></article>
+    <article class="card"><h2>Pro</h2><p class="price">$40<span>/mo</span></p><ul><li>4 bags a month</li><li>Priority roasts</li></ul></article>
+  </section>
+
+  <section id="signup" class="signup">
+    <h2>Join Brewline</h2>
+    <form>
+      <label>Email <input type="email" name="email" placeholder="you@example.com"></label>
+      <label>Plan
+        <select name="plan"><option>Starter</option><option>Regular</option><option>Pro</option></select>
+      </label>
+      <button class="btn" type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <footer>&copy; Brewline. All rights reserved.</footer>
+</body>
+</html>
